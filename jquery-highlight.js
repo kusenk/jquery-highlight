@@ -43,7 +43,7 @@
         re.push(query[i]);
       }
 
-      re = new RegExp('('+query+')', "gi");
+      re = new RegExp('('+query.replace(' ', '|')+')', "gi");
 
       var subs = '<span class="highlight">$1</span>';
 
