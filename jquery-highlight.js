@@ -17,16 +17,26 @@
     });
 
     $(to_watch).bind(search_event, function() {
-      var search = $(this).val().toLowerCase();
+      var search       = $(this).val().toLowerCase(),
+          search_parts = search.split(' ');
 
       $.each(index, function(key, elem) {
         elem.html(elem.data('restore'));
 
-        if (search.length <= 0)
+        if (search.length < 1)
+          return doShow(elem);
+        
+        var found = false
+        $.each(search_parts, function() {
+          if (key.indexOf(search) < 1)
+            return;
+          
+          elem.html(highlightHTML(elem.html(), search));
           doShow(elem);
-        else if (key.indexOf(search) > 0)
-          elem.html(highlightHTML(elem.html(), search)).show();
-        else
+          found = true
+        });
+          
+        if (!found)
           doHide(elem);
       });
     });
@@ -43,7 +53,7 @@
         re.push(query[i]);
       }
 
-      re = new RegExp('('+query.replace(' ', '|')+')', "gi");
+      re = new RegExp('('+query.join('|')+')', "gi");
 
       var subs = '<span class="highlight">$1</span>';
 
