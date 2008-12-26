@@ -28,10 +28,10 @@
         
         var found = false
         $.each(search_parts, function() {
-          if (key.indexOf(search) < 1)
+          if (key.indexOf(this) < 1)
             return;
           
-          elem.html(highlightHTML(elem.html(), search));
+          elem.html(highlightHTML(elem.html(), this));
           doShow(elem);
           found = true
         });
@@ -47,13 +47,7 @@
      * Highlight a HTML string with a list of keywords.
      */
     function highlightHTML(html, query) {
-      var re = new Array();
-      for (var i = 0; i < query.length; i ++) {
-        query[i] = query[i].toLowerCase();
-        re.push(query[i]);
-      }
-
-      re = new RegExp('('+query.join('|')+')', "gi");
+      var re = new RegExp('('+query+')', "gi");
 
       var subs = '<span class="highlight">$1</span>';
 
