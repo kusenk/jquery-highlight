@@ -2,10 +2,12 @@
   /**
    * Highlight a DOM element with a list of keywords.
    */
-  $.fn.highlight = function(to_watch) { 
+  $.fn.highlight = function(to_watch, options) {
     var index        = {},
-        search_event = $.browser.safari ? 'search' : 'keyup';
-  
+        search_event = $.browser.safari ? 'search' : 'keyup',
+        doShow       = (options && options.show) ? options.show : function(elem) { elem.show(); }
+        doHide       = (options && options.hide) ? options.hide : function(elem) { elem.hide(); }
+
     // Setup index
     this.each(function() {
       var elem    = $(this),
@@ -13,7 +15,7 @@
       elem.data('restore', elem.html());
       index[content] = elem;
     });
-  
+
     $(to_watch).bind(search_event, function() {
       var search = $(this).val().toLowerCase();
 
@@ -21,16 +23,16 @@
         elem.html(elem.data('restore'));
 
         if (search.length <= 0)
-          elem.show();
+          doShow(elem);
         else if (key.indexOf(search) > 0)
           elem.html(highlightHTML(elem.html(), search)).show();
         else
-          elem.hide();
+          doHide(elem);
       });
     });
-    
+
     return this;
-  
+
     /**
      * Highlight a HTML string with a list of keywords.
      */
@@ -41,7 +43,7 @@
         re.push(query[i]);
       }
 
-      re = new RegExp('('+re.join("|")+')', "gi");
+      re = new RegExp('('+query+')', "gi");
 
       var subs = '<span class="highlight">$1</span>';
 
