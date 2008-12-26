@@ -2,7 +2,7 @@
   /**
    * Highlight a DOM element with a list of keywords.
    */
-  $.fn.hilite = function(to_watch) { 
+  $.fn.highlight = function(to_watch) { 
     var index        = {},
         search_event = $.browser.safari ? 'search' : 'keyup';
   
@@ -23,7 +23,7 @@
         if (search.length <= 0)
           elem.show();
         else if (key.indexOf(search) > 0)
-          elem.html(hiliteHTML(elem.html(), search)).show();
+          elem.html(highlightHTML(elem.html(), search)).show();
         else
           elem.hide();
       });
@@ -34,7 +34,7 @@
     /**
      * Highlight a HTML string with a list of keywords.
      */
-    function hiliteHTML(html, query) {
+    function highlightHTML(html, query) {
       var re = new Array();
       for (var i = 0; i < query.length; i ++) {
         query[i] = query[i].toLowerCase();
