@@ -1,0 +1,11 @@
+jquery-highlight
+----------------
+
+Provides a way to filter different blocks of text using a search field and highlight the searched words in the results. Shows & hides blocks by default, but provides hooks for custom effects (fade out blocks without matches, shrink font size, change colors, etc).
+
+Example
+-------
+
+$(document).ready(function() {
+  $('p').highlight('input[type=search]');
+});
